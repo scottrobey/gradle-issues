@@ -1,0 +1,14 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+group "org.example.gradle6test"
+version "1.0"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:27.0.1-jre'
+}
+

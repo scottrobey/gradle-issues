@@ -10,5 +10,16 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:27.0.1-jre'
+    // Upgrade to new version of Guava to expose the issue
+    //implementation 'com.google.guava:guava:33.3.1-jre'
 }
 
+// workaround for Gradle 6
+//sourceSets.all {
+//    configurations.getByName(runtimeClasspathConfigurationName) {
+//        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")
+//    }
+//    configurations.getByName(compileClasspathConfigurationName) {
+//        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")
+//    }
+//}

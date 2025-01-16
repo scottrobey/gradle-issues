@@ -9,12 +9,36 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:27.0.1-jre'
     // Upgrade to new version of Guava to expose the issue
-    //implementation 'com.google.guava:guava:33.3.1-jre'
+    implementation ('com.google.guava:guava:33.4.0-jre')
+
+    // if your project has no transitive dependencies on Guava, then the preferable solution is:
+//    implementation ('com.google.guava:guava:33.4.0-jre') {
+//        attributes{
+//            attribute(Attribute.of("org.gradle.jvm.environment", String),"standard-jvm")
+//        }
+//    }
+
+    // However we will add a dependency that has a transitive dependency on guava:
+    //|--- io.swagger:swagger-jersey2-jaxrs:1.6.2
+    //     +--- io.swagger:swagger-jaxrs:1.6.2
+    //     |    +--- io.swagger:swagger-core:1.6.2
+    //     |    |    +--- com.google.guava:guava:27.0.1-android -> 33.4.0-jre (*)
+    implementation 'io.swagger:swagger-jersey2-jaxrs:1.6.2'
+
+    testImplementation 'junit:junit:4.13.2'
 }
 
 // workaround for Gradle 6
+// it probably slows down the build marginally to apply this change to every configuration, but in projects that create
+// various custom configurations, this is the way to go
+sourceSets.all {
+    configurations.all { config ->
+        config.attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")
+    }
+}
+
+// if your project doesn't create any custom configurations then this is prob a better/faster way to implement the workaround
 //sourceSets.all {
 //    configurations.getByName(runtimeClasspathConfigurationName) {
 //        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")

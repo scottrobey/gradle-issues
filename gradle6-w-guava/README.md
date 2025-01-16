@@ -27,8 +27,11 @@ Execution failed for task ':compileJava'.
 
 This seems to be somewhat of a known issue, documented here: https://github.com/google/guava/releases/tag/v32.1.0
 
+Also on Stack Overflow: https://stackoverflow.com/questions/77746136/how-to-exclude-one-of-the-variants-of-com-google-guava-dependency-while-building
+
 Possible Solutions:
-1. Upgrade to newer version of Gradle? Which version fixes the issue? TBD
-2. Use the Android version of the library - but we know that the Android version doesn't support the same set of APIs that the
-   JRE version does.
-3. Modifications to the build script: TBD
+1. Upgrade to a newer version of Gradle? Chatter online suggests that upgrading to Gradle 7+ will fix the issue
+2. Use the Android version of the library - you probably don't want to do this unless you're building an application targeted 
+   specifically for Android. Note: The Android version does NOT support all the APIs that the JRE version supports
+3. Modify the build script to work around the issue using some Gradle mojo - This is the approach I chose for this demo and probably
+   the least expensive option if you're in a time crunch, although option 1 is the better long-term solution
